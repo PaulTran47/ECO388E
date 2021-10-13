@@ -5,6 +5,9 @@
 % Creating a function that calculates the likelihood contribution of i,
 % after integrating out e1_i, for each simulated draw of e1_i, and then
 % sums them together along S.
+%==========================================================================
+
+%==========================================================================
 %=======================================
 % WE ARE CHOOSING TO INTEGRATE OUT e1_i:
 %=======================================
