@@ -5,7 +5,7 @@ This repository houses all problem sets and associated solutions for ECO388E: St
 
 Below are the topics covered by each assignment.
 
-MIT Licenced.
+MIT Licensed.
 
 ============================================================================
 
