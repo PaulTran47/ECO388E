@@ -1,6 +1,6 @@
 %==========================================================================
-%% 2 percentage signs represent comments for code;
-% 1 percentage sign represents commented out code;
+%% 2 percentage signs represent sections of code;
+% 1 percentage sign represents comments for code or commented out code;
 
 % Creating a function that creates the sum needed for simulating the
 % inner expectation E[p^2|x1_i, x2_i, e1_i, e2_i; theta1, theta2, sigma] of

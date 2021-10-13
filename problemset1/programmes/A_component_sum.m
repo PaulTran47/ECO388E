@@ -1,6 +1,6 @@
 %==========================================================================
-%% 2 percentage signs represent comments for code;
-% 1 percentage sign represents commented out code;
+%% 2 percentage signs represent sections of code;
+% 1 percentage sign represents comments for code or commented out code;
 
 % Creating a function that find the sum needed for the estimate of the
 % optimal weight matrix A. How it works is that it takes the individual

@@ -1,6 +1,6 @@
 %==========================================================================
-%% 2 percentage signs represent comments for code;
-% 1 percentage sign represents commented out code;
+%% 2 percentage signs represent sections of code;
+% 1 percentage sign represents comments for code or commented out code;
 
 % Creating a function that calculates the likelihood contribution of i,
 % after integrating out e1_i, for each simulated draw of e1_i, and then

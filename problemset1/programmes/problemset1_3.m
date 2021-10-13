@@ -1,9 +1,9 @@
 %==========================================================================
-%% 2 percentage signs represent comments for code;
-% 1 percentage sign represents commented out code;
+%% 2 percentage signs represent sections of code;
+% 1 percentage sign represents comments for code or commented out code;
 
 % ECO388E Problem Set 1, 3
-% Paul Le Tran
+% Paul Le Tran, plt377
 % 21 September, 2021
 %==========================================================================
 
@@ -23,8 +23,8 @@ clear all;
 close all;
 clc;
 
-home_dir = 'path\to\problemset1\programmes';
-data_dir = 'path\to\problemset1\data';
+home_dir = 'path\to\programmes';
+data_dir = 'path\to\data';
 
 cd(home_dir);
 
