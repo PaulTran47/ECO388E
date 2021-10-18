@@ -19,7 +19,7 @@ Integrating out unobservables for linear and invertible model; non-linear and in
 # Problem Set 2
 ============================================================================
 
-Soon TM.
+Discrete choice models and state dependence.
 
 ============================================================================
 
