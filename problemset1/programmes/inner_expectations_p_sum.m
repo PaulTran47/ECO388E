@@ -2,6 +2,29 @@
 %% 2 percentage signs represent sections of code;
 % 1 percentage sign represents comments for code or commented out code;
 
+% Answers to question parts that don't involve code can be found at the
+% bottom of the programme, in the section ``Questions asked in problemset x
+% that don't involve code".
+
+% Text answers to question parts that involve code will be between the
+% sub-section label:
+%=======
+% ANSWER
+%=======
+% Answer here
+%===========
+% END ANSWER
+%===========
+
+% Comments that are important will be between the sub-section label:
+%=====
+% NOTE
+%=====
+% Important note here
+%=========
+% END NOTE
+%=========
+
 % Creating a function that creates the sum needed for simulating the
 % inner expectation E[p|x1_i, x2_i, e1_i, e2_i; theta1, theta2, sigma] of
 % the generic moments condition.

@@ -2,6 +2,31 @@
 %% 2 percentage signs represent sections of code;
 % 1 percentage sign represents comments for code or commented out code;
 
+% Answers to question parts that don't involve code can be found at the
+% bottom of the programme, in the section ``Questions asked in problemset x
+% that don't involve code".
+
+% Text answers to question parts that involve code will be between the
+% sub-section label:
+%=======
+% ANSWER
+%=======
+% Answer here
+%===========
+% END ANSWER
+%===========
+
+% Comments that are important will be between the sub-section label:
+%=====
+% NOTE
+%=====
+% Important note here
+%=========
+% END NOTE
+%=========%==========================================================================
+%% 2 percentage signs represent sections of code;
+% 1 percentage sign represents comments for code or commented out code;
+
 % Creating a function that find the sum needed for the estimate of the
 % optimal weight matrix A. How it works is that it takes the individual
 % component from the component matrix made above, multiplies it with its
