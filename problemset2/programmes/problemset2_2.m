@@ -27,13 +27,14 @@
 
 % ECO388E Problem Set 2, 2
 % Paul Le Tran, plt377
-% 20 October, 2021
+% 22 October, 2021
 %==========================================================================
 
 %==========================================================================
 %% Model info
 % y_i = I(theta0 + theta1*x1_i + theta2*x2_i + e_i > 0);
-% x2_i = theta3 + theta4*x1_i + theta5*z_i + eta_i
+% x2_i = theta3 + theta4*x1_i + theta5*z_i + eta_i;
+% x2_i is assumed to be endogenous with e_i.
 %==========================================================================
 
 %==========================================================================
@@ -68,9 +69,8 @@ cd(home_dir);
 %==========================================================================
 
 %==========================================================================
-%% Part 2d: Joint normal discrete choice model (MLE): Estimation
-% Assuming e_i and eta_i are jointly normal with SE(e_i) = 1 and SE(eta_i)
-% = sigma_eta.
+%% Part 2d: Endogeneity in discrete choice model (MLE): Estimation
+% Assuming (e_i, eta_i) ~ iid, multivariate normal with SE(e_i) = 1 and SE(eta_i) = sigma_eta.
 % First stage: x2_i = regressand; x1_i, z_i (plus constant) = regressors
 % Second stage: y_i = regressand; x1_i, x2_i (plus constant) = regressors
 
@@ -248,7 +248,7 @@ clear var_bhat_ml_joint;
 %==========================================================================
 
 %==========================================================================
-%% Part 2e: Joint normal discrete choice model (MLE): Hypothesis-testing on rho
+%% Part 2e: Endogeneity in discrete choice model (MLE): Hypothesis-testing on rho
 %=====
 % NOTE
 %=====
@@ -273,6 +273,8 @@ p_value = tcdf(tstat, N - 3);
 %===========
 % END ANSWER
 %===========
+%==========================================================================
+
 %==========================================================================
 %% Questions asked in problemset 2_2 that don't involve code
 %=========
@@ -318,11 +320,10 @@ p_value = tcdf(tstat, N - 3);
 %=========
 % Part 2f:
 %=========
-% Observe that tau_i is an unobservable that affects the effect of x1_i
-% (women's age) on x2_i randomly. Economically, this means tau_i is
-% capturing heterogeneity in the response of education from changes in age.
-% In summary, a woman's age could have a larger impact on her educational
-% level compared to other women.
+% Observe that tau_i is an unobservable that introduces heterogeneity in
+% the response of education to changes in a woman's age. In other words,
+% tau_i is essentially a shock that results in the impact of age on
+% education to be different amongst women.
 
 %=========
 % Part 2g:
@@ -357,12 +358,12 @@ p_value = tcdf(tstat, N - 3);
 %                                   = inv(S)*\sum_{j}^{S} normpdf(eta_i/sigma_eta)/sigma_eta,
 
 % where
-% eta_i = x2_i - theta3 - (theta4 + sigma_tau*tau_{i, S})x1_i - theta5*z_i.
+% eta_i = x2_i - theta3 - (theta4 + sigma_tau*tau_{i}^{j})x1_i - theta5*z_i.
 % S represents the number of simulated draws we take of tau_i and
 % j = 1, ..., S is simulated draw itself.
 % We can finally write the probabilty as:
 
-% p(x2_i | x1_i, z_i; theta) = inv(S)*\sum_{j}^{S} normpdf(x2_i - theta3 - (theta4 + sigma_tau*tau_{i, j})x1_i - theta5*z_i)/sigma_eta
+% p(x2_i | x1_i, z_i; theta) = inv(S)*\sum_{j}^{S} normpdf(x2_i - theta3 - (theta4 + sigma_tau*tau_{i}^{j})x1_i - theta5*z_i)/sigma_eta
 
 % To find an expression for for p(y_i | x1_i, x2_i, z_i, eta_i; theta), we
 % again partially integrate out tau_i:
@@ -373,24 +374,23 @@ p_value = tcdf(tstat, N - 3);
 % tau_i is independent of x1_i, x2_i, z_i, eta_i, and e_i.
 % Simulating this integral gives us:
 
-% p(y_i | x1_i, x2_i, z_i, eta_i; theta) = inv(S)*\sum_{j}^{S} p(y_i | x1_i, x2_i, z_i, tau_{i, j}, eta_i; theta),
+% p(y_i | x1_i, x2_i, z_i, eta_i; theta) = inv(S)*\sum_{j}^{S} p(y_i | x1_i, x2_i, z_i, tau_{i}^{j}, eta_i; theta),
 
 % We must now modify our kappa_i equation that is in the second stage
 % equation due to the structure of x2_i changing. Essentially, this just
 % means kappa_i now includes tau_i:
 
-% kappa_i = theta0 + theta2*theta3 + (theta1 + theta2*(theta4 + sigma_tau*tau_{i, j}))*x1_i + theta2*theta5*z_i + theta2*eta_i.
+% kappa_i = theta0 + theta2*theta3 + (theta1 + theta2*(theta4 + sigma_tau*tau_{i}^{j}))*x1_i + theta2*theta5*z_i + theta2*eta_i.
 
-% Therefore, we can write the our simulated (log-)likelihood objective
-% function:
+% We finally obtain our simulated (log-)likelihood objective function:
 
 % L = \sum_{i}^{N} ln(p(x2_i | x1_i, z_i; theta)) + ln(p(y_i | x1_i, x2_i, z_i, eta_i; theta)),
 
-% where
+% where (recapping everything)
 % p(y_i | x1_i, x2_i, z_i, eta_i; theta) = inv(S)*\sum_{j}^{S} y_i*normcdf((kappa_i + (rho/sigma_eta)*eta_i)/(1 - rho^2)) + (1 - y_i)*normcdf((kappa_i + (rho/sigma_eta)*eta_i)/(1 - rho^2)),
 % where
-% eta_i = x2_i - theta3 - (theta4 + sigma_tau*tau_{i, j})x1_i - theta5*z_i,
-% kappa_i = theta0 + theta2*theta3 + (theta1 + theta2*(theta4 + sigma_tau*tau_{i, j}))*x1_i + theta2*theta5*z_i + theta2*eta_i,
+% eta_i = x2_i - theta3 - (theta4 + sigma_tau*tau_{i}^{j})x1_i - theta5*z_i,
+% kappa_i = theta0 + theta2*theta3 + (theta1 + theta2*(theta4 + sigma_tau*tau_{i}^{j}))*x1_i + theta2*theta5*z_i + theta2*eta_i,
 % S represents the number of simulated draws we take of tau_i,
 % j = 1, ..., S is simulated draw itself.
 
@@ -455,19 +455,59 @@ p_value = tcdf(tstat, N - 3);
 %=========
 % Part 2j:
 %=========
-% Soon TM.
+% As seen in class, no, the simulated moments in part 2h are not smooth in
+% theta. In order to obtain smoothness, we will simulate our MSM objective
+% function using importance sampling. Recall that plugging in the first
+% stage equation into the second stage equation yields the model single-
+% equation form:
+
+% y_i = I(kappa_i + e_i > 0),
+% ==> E[y_i | x1_i, z_i; theta] = \int \int I(kappa_i + e_i > 0)*p(tau_i)*p(e_i | eta_i)*dtau_i*de_i
+
+% where
+% kappa_i = theta0 + theta2*theta3 + (theta1 + theta2*(theta4 + sigma_tau*tau_i))*x1_i + theta2*theta5*z_i + theta2*eta_i.
+% Consider the change of variables u_i = kappa_i + e_i. Our model is then:
+
+% y_i = I(u_i > 0).
+% ==> E[y_i | x1_i, z_i; theta] = \int I(u_i > 0)*(p(u_i | x1_i, z_i; sigma_tau, sigma_eta, theta)/h(u_i))*h(u_i)*du_i.
+
+% Recall from class that we want h(u_i) to be some density that doesn't
+% depend on theta. If we only care about smoothing, let h(u_i) be density
+% p(u_i | ...) at evaluated for initial guess on sigma_u and theta. We then
+% get our simulation for E[y_i | x1_i, z_i; theta]:
+
+% E[y_i | x1_i, z_i; theta] = inv(S)*\sum_{j}^{S} I(u_{i}^{j} > 0)*(p(u_{i}^{S} | x1_i, z_i; sigma_tau, sigma_eta theta)/h(u_{i}^{S})),
+
+% where
+% % S represents the number of simulated draws we take of u_i,
+% j = 1, ..., S is simulated draw itself.
 
 %=========
 % Part 2k:
 %=========
-% It's possible that assuming tau_i is independent of eta_i is not
-% reasonable. Recall from part 2f that tau_i captures heterogeneity in the
-% response of a woman's education to changes in her age. Given the
-% endogenous nature of our model, if education and labour force
-% participation are determined at the same time by a woman, it's possible
-% that eta_i captures a factor in that simultaneous decision. It's
-% additionally possible that the "shock" affecting a woman's choice of
-% education due to her age has influence on this simultaneous decision on
-% education and labour force participation as well. As a result, assuming
-% tau_i is independent of eta_i could be unreasonable.
+% With the possibility that our discrete choice model has endogeneity, we
+% should think of both labour force participation and education level being
+% jointly and simultaneously determined by our system of equations. This
+% means that eta_i is an unobservable that captures this joint decision.
+% However, recall that tau_i introduces heterogeneity in the response of
+% education to changes in a woman's age. This means that tau_i exerts
+% influence on the solving/determination of a woman's education in our
+% system of equations. As a result, it's possibly unreasonable to assume
+% that tau_i is independent of eta_i.
+
+%=========
+% Part 2l:
+%=========
+% Stata's "ivprobit" command requires the following model assumptions to
+% produce consistent estimates:
+
+% 1. (eta_i, e_i) ~ iid multivariate normal, \forall i.
+% 2. e_i is homoscedastic;
+% 3. The endogenous regressors (i.e., x2_i) is continuous.
+
+% ivprobit wouldn't be able to estimate our model in part 2f primarily
+% because the assumption regarding homoscedasticity would be violated. This
+% is because estimates for sigma_tau are determined in part by x1_i. With
+% our model being in single-wquation form, we clear see homoscedasticity is
+% violated.
 %==========================================================================
