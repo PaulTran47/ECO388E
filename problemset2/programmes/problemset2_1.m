@@ -207,7 +207,7 @@ l_i_bl = @(theta) exp(theta(1) + theta(2)*x1_i + theta(3)*x2_i)./(1 + exp(theta(
 % Creating log-likelihood contribution of i
 ll_i_bl = @(theta) log(l_i_bl(theta));
 % Creating log-likelihood objective function
-objfunc_ml_bl = @(theta) inv(N)*sum(y_i.*ll_i_bl(theta) + (1 - y_i).*log(1 - l_i_bl(theta)));
+objfunc_ml_bl = @(theta) sum(y_i.*ll_i_bl(theta) + (1 - y_i).*log(1 - l_i_bl(theta)))/N;
 % Initial parameter values for numerical optimisation
 theta0 = [0, 0, 0];
 
