@@ -19,7 +19,7 @@ Integrating out unobservables for linear and invertible model; non-linear and in
 # Problem Set 2
 =========================================================================
 
-Discrete choice models and state dependence.
+Binary logit and probit discrete choice models; endogeneity in discrete choice models; discrete choice models with panel data.
 
 =========================================================================
 
