@@ -23,17 +23,14 @@
 % Important note here
 %=========
 % END NOTE
-%=========%==========================================================================
-%% 2 percentage signs represent sections of code;
-% 1 percentage sign represents comments for code or commented out code;
+%=========
+%==========================================================================
 
+%==========================================================================
 % Creating a function that find the sum needed for the estimate of the
 % optimal weight matrix A. How it works is that it takes the individual
 % component from the component matrix made above, multiplies it with its
 % transpose, then finds the sum for all i.
-%==========================================================================
-
-%==========================================================================
 function component_i_component_i_t_sum = A_component_sum(theta)
   global N;
   global component;

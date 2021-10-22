@@ -90,13 +90,15 @@ cd(home_dir);
 %=======================================
 % Doing so shows that there is an invertible relationship between p_i and
 % e2_i, we can do ToRV:
+
 % e2_i = (ln(3*p_i - 100 - exp(theta1 + theta2*x1_i + sigma*e1_i)) - theta1 - theta2*x2_i)/sigma
 % d(f^(-1))/d(p_i) = 3/(3*p_i - 100 - exp(theta1 + theta2*x1_i + sigma*e1_i))
-% Therefore, p(p_i|x1_i, x2_i, e1_i; theta1, theta2, sigma) =
-% normpdf(e2_i)*abs(3/(3*p_i - 100 - exp(theta1 + theta2*x1_i + sigma*e1_i)))
+
+% Therefore, p(p_i|x1_i, x2_i, e1_i; theta1, theta2, sigma) = normpdf(e2_i)*abs(3/(3*p_i - 100 - exp(theta1 + theta2*x1_i + sigma*e1_i)))
+
 % Therefore, using numerical approximation of integrals, we get the
-% likelihood p(p_i|x1_i, x2_i, e1_i, e2_i; theta1, theta2, sigma) = 
-% inv(S)*sum_over_S(p(p_i|x1_i, x2_i, e1_S_i; theta1, theta2, sigma)),
+% likelihood p(p_i|x1_i, x2_i, e1_i, e2_i; theta1, theta2, sigma) =  inv(S)*\sum_{S}(p(p_i|x1_i, x2_i, e1_{S, i}; theta1, theta2, sigma)),
+
 % where S represents the simulated draw.
 % What this means is we need to calculate p(p_i|x1_i, x2_i, e1_S_i; theta1, theta2, sigma)
 % for each simulated draw of e1_i values first.
@@ -408,10 +410,14 @@ clear var_bhat_gmm;
 
 %==========================================================================
 %% Questions asked in problem 3 that doesn't involve code
+%=========
 % Part 3a:
-% PLEASE SEE THE SCANNED HANDWRITTEN PAGE FOR THE ANSWER..
+%=========
+% PLEASE SEE THE SCANNED HANDWRITTEN PAGE FOR THE ANSWER.
 
+%=========
 % Part 3c:
+%=========
 % Attempting to estimate this model with only a mean independence
 % assumption would be difficult due to what the integrating-out process
 % involves (both complete and partial). In the context of me choosing to
@@ -423,14 +429,18 @@ clear var_bhat_gmm;
 % assume the distribution of the error terms up to parameters(especially
 % the one being integrated out).
 
+%=========
 % Part 3d:
+%=========
 % The computational results from part 3d code above shows that the
 % difference between the first stage standard errors and second stage
 % standard errors is negligible. This seems in indicate that the second
 % stage process is more about finding the "correct" parameter estimates,
 % and less about decreasing the standard errors of said estimates.
 
+%=========
 % Part 3f:
+%=========
 % The main change we see done to the model is that there is now an
 % additional error term, eta_i, to the optimal price equation, p_i*. In
 % terms of intuitive changes, because eta_i is observable to neither firm,
@@ -454,7 +464,9 @@ clear var_bhat_gmm;
 % to do three sets of simulated draws since the model now has three error
 % terms.
 
+%=========
 % Part 3g:
+%=========
 % With the introduction to new parameter rho and error term alpha in each
 % firm's marginal cost functions, this means the FOCs and thus profit
 % maximisations of both firms will change. As a result, the general optimal
@@ -473,7 +485,9 @@ clear var_bhat_gmm;
 % 3f). We again need to do three sets of simulated draws for error terms
 % e_1, e_2, and alpha.
 
+%=========
 % Part 3h:
+%=========
 % All the following analyses are doing referring to the model in part 3f.
 % Suppose we are in the scenario where we observe p_i, x1_i, x2_i, q1_i,
 % and q2_i. Assume we see that q_i's are similar and x_i's are similar
@@ -504,7 +518,9 @@ clear var_bhat_gmm;
 % even if we see similar p_i's across markets, we can't pin down if this is
 % due to being in a world with small sigma only, small phi only, or both.
 
+%=========
 % Part 3i:
+%=========
 % All the following analyses are doing referring to the model in part 3g.
 % Assume we observe p_i, x1_i, x2_i, q1_i, and q2_i. Observe that both
 % marginal cost equations share the same shock alpha and parameter rho.

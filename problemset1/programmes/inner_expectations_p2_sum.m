@@ -24,12 +24,12 @@
 %=========
 % END NOTE
 %=========
-% Creating a function that creates the sum needed for simulating the
-% inner expectation E[p^2|x1_i, x2_i, e1_i, e2_i; theta1, theta2, sigma] of
-% the generic moments condition.
 %==========================================================================
 
 %==========================================================================
+% Creating a function that creates the sum needed for simulating the
+% inner expectation E[p^2|x1_i, x2_i, e1_i, e2_i; theta1, theta2, sigma] of
+% the generic moments condition.
 function rhs_sum_component = inner_expectations_p2_sum(theta)
   global x1_i x2_i;
   global N S;

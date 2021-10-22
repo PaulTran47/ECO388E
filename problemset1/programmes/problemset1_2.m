@@ -73,8 +73,7 @@ cd(home_dir);
 % can do ToRV:
 % e_i = (ln(y_i) - theta1 - (x_i)^theta2)/sigma;
 % d(f^(-1))/d(y_i) = 1/(y_i*sigma)
-% Therefore, p(y_i|x_i; theta1, theta2, sigma) =
-% normpdf((ln(y_i) - theta1 - (x_i)^theta2)/sigma)*(1/(y_i*sigma));
+% Therefore, p(y_i|x_i; theta1, theta2, sigma) = normpdf((ln(y_i) - theta1 - (x_i)^theta2)/sigma)*(1/(y_i*sigma));
 
 % Creating inverse function e_i
 % theta(3) = sigma
@@ -299,7 +298,9 @@ clear var_bhat_gmm;
 
 %==========================================================================
 %% Questions asked in problem 2 that doesn't involve code
+%=======================
 % (Technically) Part 2c:
+%=======================
 % Recall that for ML, you need to assume the full distribution of the error
 % term up to parameters. This includes making a stance on what the variance
 % of the error terms are. In contrast, for invertible GMM, you only need to
@@ -307,7 +308,24 @@ clear var_bhat_gmm;
 % GMM isn't making a stance on the variance of the error term, and is
 % therefore robust to heteroscedasticity.
 
+%=======================
 % (Technically) Part 2d:
-% We know from theory that the ML estimator is more efficient than the GMM
-% estimator (WHY DOE????).
+%=======================
+% In the context of this problem, recall that the model is exactly
+% identified because the number of moments is equal to the number of
+% parameters estimated. As a result, the choice of weight matrix A should
+% not matter. We know that when it comes to non-invertible GMM estimation,
+% the estimator is not efficient because it does not contain all possible
+% higher-order moments of \epsilon_i’s distribution, which capture more
+% information about the variance). This is even the case when we make an
+% assumption on the distribution of \epsilon_i up to parameters.
+
+%When considering invertible GMM estimation, we only make assume
+% E[e_i | x_i] = 0, meaning we do not know anything else about e_i's
+% distribution. Therefore, even with optimal weight matrix A and the model
+% exactly identified, we are unable to add any high-order moments to the
+% moment condition due to not knowing anything else about e_i’s
+% distribution. It is this lack of higher-order moments that makes both
+% invertible GMM estimators (this problem) and non-invertible GMM
+% estimators (problem 3) less efficient than ML estimators.
 %==========================================================================

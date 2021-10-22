@@ -85,8 +85,7 @@ clear fit covvar_matrix;
 % can do ToRV:
 % e_i = f^(-1)(y_i, x_i) = y_i - (theta1 - theta2*x_i)/sigma;
 % d(f^(-1))/d(y_i) = 1/sigma
-% Therefore, p(y_i|x_i; theta1, theta2, sigma) =
-% normpdf(y_i - (theta1 - theta2*x_i)/sigma)*(1/sigma)
+% Therefore, p(y_i|x_i; theta1, theta2, sigma) = normcdf(y_i - (theta1 - theta2*x_i)/sigma)*(1/sigma)
 
 % Creating inverse function e_i
 % theta(3) = sigma
@@ -227,7 +226,9 @@ clear var_bhat_gmm;
 
 %==========================================================================
 %% Questions asked in problem 1 that doesn't involve code
+%=========
 % Part 1c:
+%=========
 % Sigma is no longer a parameter that needs to be identified in GMM for
 % this model because we have invertibility. This allows us to not have to
 % make asssumptions about the full distribution of e_i up to parameters.

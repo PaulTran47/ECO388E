@@ -257,7 +257,6 @@ clear var_bhat_gmm;
 
 %==========================================================================
 %% Part of 3e that doesn't involve code
-
 % We see that estimating the model without the (p_i)^2 moment results in
 % the standard errors of all parameters to increase. This is expected
 % because in general, GMM/MSM estimation does not use all of the moments of
