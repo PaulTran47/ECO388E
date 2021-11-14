@@ -68,15 +68,6 @@ N = 100;
 global T;
 T = 20;
 
-%=====
-% NOTE
-%=====
-% Observe that each consumer i has 20 weeks worth of decisions. This is
-% obtained by looking at the variables i and t.
-%=========
-% END NOTE
-%=========
-
 clear data1;
 cd(home_dir);
 %==========================================================================
