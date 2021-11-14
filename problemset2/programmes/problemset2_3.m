@@ -58,13 +58,15 @@ t = data1(:, 2);
 y_it = data1(:, 3);
 p_it = data1(:, 4);
 
-% Getting total consumer size
+% Getting total number of consumers. This is found by looking at the vector
+% i
 global N;
-N = length(i);
+N = 100;
 
-% Getting total time period
+% Getting total time period for each consumer. This is found by looking at
+% the vector t
 global T;
-T = length(t);
+T = 20;
 
 %=====
 % NOTE
