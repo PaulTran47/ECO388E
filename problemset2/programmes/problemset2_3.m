@@ -34,7 +34,8 @@
 %% Model info
 % y_i = I(U_{i, t} > 0) = I(theta0 + theta1*p_{i, t} + theta2*y_{i, t - 1} + sigma_alpha*\alpha_{i} + e_{i, t} > 0)
 % e_{i, t} ~ iid difference between two T1EV deviates (i.e., "logit" error)
-% \alpha_i ~ N(0, 1) independently across i.
+% \alpha_i ~ N(0, 1) independently across i
+% y_i0 = 0 for all i
 %==========================================================================
 
 %==========================================================================
@@ -55,21 +56,100 @@ data1 = importdata('sim3.dat');
 % Declaring variables
 i = data1(:, 1);
 t = data1(:, 2);
-y_it = data1(:, 3);
-p_it = data1(:, 4);
+y = data1(:, 3);
+p = data1(:, 4);
 
-% Getting total number of consumers. This is found by looking at the vector
-% i
+% Getting total number of unique consumers.
 global N;
-N = 100;
+N = length(unique(i));
 
-% Getting total time period for each consumer. This is found by looking at
-% the vector t
+% Getting total time period for each consumer.
 global T;
-T = 20;
+T = length(unique(t));
+
+% Setting total number of simulations used later on when integrating out
+% unobserved heterogeneity, \alpha_i
+global S;
+S = 500;
 
 clear data1;
 cd(home_dir);
+%==========================================================================
+
+%==========================================================================
+%% Part 3d: Discrete choice model with panel data, state dependence, and unobserved heterogeneity: MLE
+%=====
+% NOTE
+%=====
+% Recall we are choosing to integrate out \alpha_i ~ N(0, 1) using a max
+% simulated draw number of S = 500. There are N = 100 unique customers.
+% The total time period for each customer is T = 20 weeks. We wish for each
+% customer to have their own unique simulated draws of unobserved
+% heterogeneity. Therefore, \alpha_i is a 3D array of dimension (T, S, N).
+% In words, this means each customer has 500 simulated draws of unobserved
+% heterogeneity for each time period.
+%=========
+% END NOTE
+%=========
+global alpha;
+alpha = randn(T, S, N);
+
+% Reshaping variables y and p into 3D arrays of dimension (T, 1, N). In
+% words, each unique customer now has a Tx1 vector of y and p.
+global y_it p_it;
+y_it = reshape(y, [T, 1, N]);
+p_it = reshape(p, [T, 1, N]);
+
+% Creating y_{i, t - 1}. We will also reshape this into a 3D array of
+% dimension (T, 1, N). Recall our assumption that y_i0 = 0 for all i.
+global y_itm1;
+y_itm1 = reshape(lagmatrix(y_it, 1), [T, 1, N]);
+y_itm1(isnan(y_itm1)) = 0;
+
+%=====
+% NOTE
+%=====
+% WE ARE CHOOSING TO INTEGRATE OUT \alpha_i.
+
+% Parameters:
+% theta(1) = theta0;
+% theta(2) = theta1;
+% theta(3) = theta2;
+% theta(4) = sigma_alpha
+%=========
+% END NOTE
+%=========
+% Creating likelihood contribution of i. More information about the
+% l_io_alpha_i_i_sum function can be found in l_io_alpha_i_i_sum.m
+l_i = @(theta, i) l_io_alpha_i_i_sum(theta, i)/S;
+% Creating log-likelihood contribution of i
+ll_i = @(theta, i) log(l_i(theta, i));
+% Creating sum component of aggregate log-likelihood function. This sums
+% across all consumers i.
+ll_sum_component = @(theta) 0;
+for j = 1:N
+  ll_sum_component = @(theta) ll_sum_component(theta) + ll_i(theta, j);
+end
+clear j;
+% Creating aggregate log-likelihood function
+ll = @(theta) ll_sum_component(theta)/N;
+
+% Initial parameter values
+theta0 = [0.5, 0.5, 0.5, 0.5];
+
+% Numerical optimisation to find (theta1, theta2, sigma)(fminsearch)
+options = optimset('Display', 'iter');
+bhat_ml = fminsearch(@(theta) -ll(theta), theta0, options);
+%=======
+% ANSWER
+%=======
+% We are commenting the estimate of bhat_ml due to the amount of time it
+% took for fminsearch to complete with S = 500.
+
+% bhat_ml = [-1.1062, 0.8537, 1.1744, 0.8882].
+%===========
+% END ANSWER
+%===========
 %==========================================================================
 
 %==========================================================================
