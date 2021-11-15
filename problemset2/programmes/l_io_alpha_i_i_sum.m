@@ -71,3 +71,4 @@ function rhs_sum_component = l_io_alpha_i_i_sum(theta, i)
   end
   clear s;
 end
+%==========================================================================
