@@ -30,9 +30,18 @@
 % Creating a function that calculates the likelihood contribution of i,
 % after integrating out e1_i, for each simulated draw of e1_i, and then
 % sums them together along S.
-%=======================================
-% WE ARE CHOOSING TO INTEGRATE OUT e1_i:
-%=======================================
+%=====
+% NOTE
+%=====
+% WE ARE CHOOSING TO INTEGRATE OUT e1_i.
+
+% Parameters:
+% theta(1) = theta1;
+% theta(2) = theta2;
+% theta(3) = sigma
+%=========
+% END NOTE
+%=========
 function rhs_sum_component = l_io_e1_i_i_sum(theta)
   global x1_i x2_i regressand;
   global N S;

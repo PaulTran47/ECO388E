@@ -85,9 +85,18 @@ cd(home_dir);
 % Observe that this model is both non-linear and non-invertible because
 % we have more unobservables than number of regressands. Therefore, we need
 % to integrate out one unobservable in order to do ML estimation.
-%=======================================
-% WE ARE CHOOSING TO INTEGRATE OUT e1_i:
-%=======================================
+%=====
+% NOTE
+%=====
+% WE ARE CHOOSING TO INTEGRATE OUT e1_i.
+
+% Parameters:
+% theta(1) = theta1;
+% theta(2) = theta2;
+% theta(3) = sigma
+%=========
+% END NOTE
+%=========
 % Doing so shows that there is an invertible relationship between p_i and
 % e2_i, we can do ToRV:
 
