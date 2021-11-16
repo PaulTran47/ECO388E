@@ -261,7 +261,7 @@ clear var_bhat_ml_joint;
 % END NOTE
 %=========
 tstat = bhat_ml_joint(8, 1)/(se_bhat_ml_joint(8,1)/sqrt(N));
-p_value = tcdf(tstat, N - 3);
+p_value = 2*(1 - tcdf(abs(tstat), N - 3));
 
 %=======
 % ANSWER
