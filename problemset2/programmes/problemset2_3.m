@@ -27,7 +27,7 @@
 
 % ECO388E Problem Set 2, 3
 % Paul Le Tran, plt377
-% 14 November, 2021
+% 15 November, 2021
 %==========================================================================
 
 %==========================================================================
@@ -68,9 +68,11 @@ global T;
 T = length(unique(t));
 
 % Setting total number of simulations used later on when integrating out
-% unobserved heterogeneity, \alpha_i
+% unobserved heterogeneity, \alpha_i. We are choosing 100 draws due to
+% parameter estimates being essentially unchanged after testing with 250,
+% 500, and 1000 draws.
 global S;
-S = 500;
+S = 100;
 
 clear data1;
 cd(home_dir);
@@ -82,17 +84,22 @@ cd(home_dir);
 % NOTE
 %=====
 % Recall we are choosing to integrate out \alpha_i ~ N(0, 1) using a max
-% simulated draw number of S = 500. There are N = 100 unique customers.
+% simulated draw number of S = 100. There are N = 100 unique customers.
 % The total time period for each customer is T = 20 weeks. We wish for each
 % customer to have their own unique simulated draws of unobserved
 % heterogeneity. Therefore, \alpha_i is a 3D array of dimension (T, S, N).
-% In words, this means each customer has 500 simulated draws of unobserved
+% In words, this means each customer has 100 simulated draws of unobserved
 % heterogeneity for each time period.
+
+% However, recall that unobserved heterogeneity is time-invariant for each
+% consumer i. This means the Tx1 vector for each consumer i and each
+% simulated draw s should be the same value.
 %=========
 % END NOTE
 %=========
 global alpha;
-alpha = randn(T, S, N);
+alpha = randn(1, S, N);
+alpha = repmat(alpha, T, 1);
 
 % Reshaping variables y and p into 3D arrays of dimension (T, 1, N). In
 % words, each unique customer now has a Tx1 vector of y and p.
@@ -127,10 +134,10 @@ ll_i = @(theta, i) log(l_i(theta, i));
 % Creating sum component of aggregate log-likelihood function. This sums
 % across all consumers i.
 ll_sum_component = @(theta) 0;
-for j = 1:N
-  ll_sum_component = @(theta) ll_sum_component(theta) + ll_i(theta, j);
+for i = 1:N
+  ll_sum_component = @(theta) ll_sum_component(theta) + ll_i(theta, i);
 end
-clear j;
+clear i;
 % Creating aggregate log-likelihood function
 ll = @(theta) ll_sum_component(theta)/N;
 
@@ -138,15 +145,119 @@ ll = @(theta) ll_sum_component(theta)/N;
 theta0 = [0.5, 0.5, 0.5, 0.5];
 
 % Numerical optimisation to find (theta1, theta2, sigma)(fminsearch)
-options = optimset('Display', 'iter');
-bhat_ml = fminsearch(@(theta) -ll(theta), theta0, options);
+%=====
+% NOTE
+%=====
+% After the initial run of the programme to obtain the parameter estimates,
+% bhat_ml, we then leave the numerical optimisation code below commented
+% out for the rest of the programme's subsequent runs. This is because even
+% with S = 100, it still takes a little bit of time to run, which will get
+% annoying really quick.
+%=========
+% END NOTE
+%=========
+% options = optimset('Display', 'iter');
+% bhat_ml = fminsearch(@(theta) -ll(theta), theta0, options);
 %=======
 % ANSWER
 %=======
 % We are commenting the estimate of bhat_ml due to the amount of time it
-% took for fminsearch to complete with S = 500.
+% took for fminsearch to complete with S = 100.
 
-% bhat_ml = [-1.1062, 0.8537, 1.1744, 0.8882].
+% bhat_ml = [-0.795278688779827, 0.916936802001065, 0.509747530171734, 0.891947440705045].
+%         \approx [-0.7953, 0.9169, 0.5097, 0.8919].
+%===========
+% END ANSWER
+%===========
+
+% We are explicitly declaring bhat_ml with the values obtained from
+% numerical optimisation. This is so we don't have to run the optimisation
+% code again for future parts.
+bhat_ml = [-0.795278688779827, 0.916936802001065, 0.509747530171734, 0.891947440705045];
+
+% Calculating the estimated gradients of the log-likelihood contributions
+% of i. We are estimating the gradient components numerically by a 
+% "one-sided derivative" with steps of 0.001. After testing with
+% "two-sided derivatives" in problem 2 of this problem set, the small
+% amount of increased accuracy doesn't warrant the increased amount of
+% code.
+
+% Making parameter vector to column  vector
+bhat_ml = bhat_ml';
+
+%=====
+% NOTE
+%=====
+% Recall that our transformation of the panel data into 3D arrays where
+% each z-dimension slice represents a consumer results in the
+% (log-)likelihood function to be a scalar for each consumer i. We want our
+% gradient components to be vectors, where each row represents a consumer.
+%=========
+% END NOTE
+%=========
+
+% 1st gradient component for i
+bhat_ml_theta1 = bhat_ml;
+bhat_ml_theta1(1, 1) = bhat_ml(1, 1)*1.001;
+dll_idtheta1 = zeros(N, 1);
+for i = 1:N
+  dll_idtheta1(i, 1) = (ll_i(bhat_ml_theta1, i) - ll_i(bhat_ml, i))/(0.001*bhat_ml(1, 1));
+end
+clear i bhat_ml_theta1;
+
+% 2nd gradient component for i
+bhat_ml_theta2 = bhat_ml;
+bhat_ml_theta2(2, 1) = bhat_ml(2, 1)*1.001;
+dll_idtheta2 = zeros(N, 1);
+for i = 1:N
+  dll_idtheta2(i, 1) = (ll_i(bhat_ml_theta2, i) - ll_i(bhat_ml, i))/(0.001*bhat_ml(2, 1));
+end
+clear i bhat_ml_theta2;
+
+% 3nd gradient component for i
+bhat_ml_theta3 = bhat_ml;
+bhat_ml_theta3(3, 1) = bhat_ml(3, 1)*1.001;
+dll_idtheta3 = zeros(N, 1);
+for i = 1:N
+  dll_idtheta3(i, 1) = (ll_i(bhat_ml_theta3, i) - ll_i(bhat_ml, i))/(0.001*bhat_ml(3, 1));
+end
+clear i bhat_ml_theta3;
+
+% 4th gradient component for i
+bhat_ml_theta4 = bhat_ml;
+bhat_ml_theta4(4, 1) = bhat_ml(4, 1)*1.001;
+dll_idtheta4 = zeros(N, 1);
+for i = 1:N
+  dll_idtheta4(i, 1) = (ll_i(bhat_ml_theta4, i) - ll_i(bhat_ml, i))/(0.001*bhat_ml(4, 1));
+end
+clear i bhat_ml_theta4;
+
+% Creating numerical gradient for i
+dll_idtheta = [dll_idtheta1 dll_idtheta2 dll_idtheta3 dll_idtheta4];
+clear dll_idtheta1 dll_idtheta2 dll_idtheta3 dll_idtheta4;
+dll_idtheta = dll_idtheta';
+
+% Calculating numerical var-cov matrix
+varcov_matrix_ml = zeros(4, 4);
+for i = 1:N
+  varcov_matrix_ml_i = dll_idtheta(:, i)*dll_idtheta(:, i)';
+  varcov_matrix_ml = varcov_matrix_ml + varcov_matrix_ml_i;
+end
+clear i dll_idtheta varcov_matrix_ml_i;
+varcov_matrix_ml = inv(varcov_matrix_ml);
+% Obtaining numerical var and SE of (theta0, theta1, theta2, sigma_alpha)
+var_bhat_ml = diag(varcov_matrix_ml);
+clear varcov_matrix_ml;
+se_bhat_ml = sqrt(var_bhat_ml);
+clear var_bhat_ml;
+%=======
+% ANSWER
+%=======
+% We are commenting the estimate of se_bhat_ml due to the amount of time it
+% took for fminsearch to complete with S = 100.
+
+% se_bhat_ml = [0.193604100650191, 0.155842360828226, 0.101160331798504, 0.117196034772911].
+%         \approx [0.1936, 0.1558, 0.1012, 0.1172].
 %===========
 % END ANSWER
 %===========
