@@ -38,7 +38,7 @@ Integrating out unobservables for linear and invertible model; non-linear and in
 ---
 
 ### [Problem Set 2](https://github.com/PaulTran47/ECO388E/tree/main/problemset2)
-Binary logit and probit discrete choice models; endogeneity in discrete choice models; discrete choice models with panel data.
+Binary logit and probit discrete choice models; endogeneity in discrete choice models; discrete choice models with panel data, state dependence, and unobserved, individual heterogeneity.
 
 <p align="right">
   (<a href="#ut-austin-structural-econometrics">back to top.</a>)
