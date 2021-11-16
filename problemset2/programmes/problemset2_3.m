@@ -158,13 +158,15 @@ theta0 = [0.5, 0.5, 0.5, 0.5];
 %=========
 % options = optimset('Display', 'iter');
 % bhat_ml = fminsearch(@(theta) -ll(theta), theta0, options);
+clear theta0;
+
 %=======
 % ANSWER
 %=======
 % We are commenting the estimate of bhat_ml due to the amount of time it
 % took for fminsearch to complete with S = 100.
 
-% bhat_ml = [-0.795278688779827, 0.916936802001065, 0.509747530171734, 0.891947440705045].
+% bhat_ml = [-0.795278688779827, 0.916936802001065, 0.509747530171734, 0.891947440705045]
 %         \approx [-0.7953, 0.9169, 0.5097, 0.8919].
 %===========
 % END ANSWER
@@ -250,14 +252,224 @@ var_bhat_ml = diag(varcov_matrix_ml);
 clear varcov_matrix_ml;
 se_bhat_ml = sqrt(var_bhat_ml);
 clear var_bhat_ml;
+
 %=======
 % ANSWER
 %=======
 % We are commenting the estimate of se_bhat_ml due to the amount of time it
 % took for fminsearch to complete with S = 100.
 
-% se_bhat_ml = [0.193604100650191, 0.155842360828226, 0.101160331798504, 0.117196034772911].
+% se_bhat_ml = [0.193604100650191, 0.155842360828226, 0.101160331798504, 0.117196034772911]
 %         \approx [0.1936, 0.1558, 0.1012, 0.1172].
+%===========
+% END ANSWER
+%===========
+%==========================================================================
+
+%==========================================================================
+%% Part 3e: Statistical significance of MLE parameter estimates
+% Recall that when applying a linear regression on panel data without
+% accounting for the characteristics of said panel data (e.g., unobserved
+% heterogeneity, individual error terms that vary over time, our sample
+% size is essentially NT. In this case, our sample size is NT = 2000.
+
+% Calculating two-sided t-statistic for each parameter estimate. We assume
+% that the null hypothesis be that the parameter's true value is zero.
+tstat_bhat_ml = zeros(4, 1);
+for i = 1:4
+  tstat_bhat_ml(i, 1) = bhat_ml(i, 1)/se_bhat_ml(i, 1);
+end
+clear i;
+
+% Calculating p-values of a two-sided t-test. We are using df = N*T - 2
+% because we have three variables: p_{i, t} and y_{i, t}.
+pvalue_bhat_ml = zeros(4, 1);
+for i = 1:4
+  pvalue_bhat_ml(i, 1) = 2*(1 - tcdf(abs(tstat_bhat_ml(i, 1)), N*T - 2));
+end
+clear i;
+
+%=======
+% ANSWER
+%=======
+% tstat_bhat_ml = [-4.10775746024490, 5.88374558193288, 5.03900611147733, 7.61073053737150]
+%               \approx [-4.1078, 5.8837, 5.0390, 7.6107].
+
+% pvalue_bhat_ml = [4.15635811068515e-05;4.69141214765045e-09;5.10090374161720e-07;4.17443857259059e-14]
+%                \approx [4.1564e-05, 4.6914e-09, 5.1009e-07, 4.1744e-14].
+
+% Recall that theta2 captures the effect of state dependence and
+% sigma_alpha captures the effect of unobserved, individual heterogeneity.
+% From our calculations above, we see that both parameters are
+% statistically significant. However, sigma_alpha is larger than theta2.
+% Therefore, we can say that unobserved, individual heterogeneity is
+% possibly more important in explaining the correlation of y_{i, t} over
+% time than state dependence.
+%===========
+% END ANSWER
+%===========
+%==========================================================================
+
+%==========================================================================
+%% Part 3f: Re-estimation of discrete choice model with panel data and state dependence: MLE
+%=====
+% NOTE
+%=====
+% Observe that this model variant is omitting \alpha_i, meaning there is no
+% unobserved, individual heterogeneity in the model. Logistically, this
+% means there is no need for simulation anymore.
+
+% Parameters:
+% theta(1) = theta0;
+% theta(2) = theta1;
+% theta(3) = theta2
+%=========
+% END NOTE
+%=========
+% Creating likelihood contribution of i.
+l_i_noalpha = @(theta, i) l_i_sum(theta, i);
+% Creating log-likelihood contribution of i
+ll_i_noalpha = @(theta, i) log(l_i_noalpha(theta, i));
+% Creating sum component of aggregate log-likelihood function. This sums
+% across all consumers i.
+ll_sum_component_noalpha = @(theta) 0;
+for i = 1:N
+  ll_sum_component_noalpha = @(theta) ll_sum_component_noalpha(theta) + ll_i_noalpha(theta, i);
+end
+clear i;
+
+% Creating aggregate log-likelihood function
+ll_noalpha = @(theta) ll_sum_component_noalpha(theta)/N;
+
+% Initial parameter values
+theta0 = [0.5, 0.5, 0.5];
+
+options = optimset('Display', 'iter');
+bhat_ml_noalpha = fminsearch(@(theta) -ll_noalpha(theta), theta0, options);
+clear theta0;
+
+%=======
+% ANSWER
+%=======
+% bhat_ml_noalpha = [-0.948478804956200, 0.729721291109664, 1.01179255327926]
+%         \approx [-0.9485, 0.7297, 1.0118].
+%===========
+% END ANSWER
+%===========
+
+% Calculating the estimated gradients of the log-likelihood contributions
+% of i. We are estimating the gradient components numerically by a 
+% "one-sided derivative" with steps of 0.001. After testing with
+% "two-sided derivatives" in problem 2 of this problem set, the small
+% amount of increased accuracy doesn't warrant the increased amount of
+% code.
+
+% Making parameter vector to column  vector
+bhat_ml_noalpha = bhat_ml_noalpha';
+
+%=====
+% NOTE
+%=====
+% Recall that our transformation of the panel data into 3D arrays where
+% each z-dimension slice represents a consumer results in the
+% (log-)likelihood function to be a scalar for each consumer i. We want our
+% gradient components to be vectors, where each row represents a consumer.
+%=========
+% END NOTE
+%=========
+
+% 1st gradient component for i
+bhat_ml_noalpha_theta1 = bhat_ml_noalpha;
+bhat_ml_noalpha_theta1(1, 1) = bhat_ml_noalpha(1, 1)*1.001;
+dll_i_noalphadtheta1 = zeros(N, 1);
+for i = 1:N
+  dll_i_noalphadtheta1(i, 1) = (ll_i_noalpha(bhat_ml_noalpha_theta1, i) - ll_i_noalpha(bhat_ml_noalpha, i))/(0.001*bhat_ml_noalpha(1, 1));
+end
+clear i bhat_ml_noalpha_theta1;
+
+% 2nd gradient component for i
+bhat_ml_noalpha_theta2 = bhat_ml_noalpha;
+bhat_ml_noalpha_theta2(2, 1) = bhat_ml_noalpha(2, 1)*1.001;
+dll_i_noalphadtheta2 = zeros(N, 1);
+for i = 1:N
+  dll_i_noalphadtheta2(i, 1) = (ll_i_noalpha(bhat_ml_noalpha_theta2, i) - ll_i_noalpha(bhat_ml_noalpha, i))/(0.001*bhat_ml_noalpha(2, 1));
+end
+clear i bhat_ml_noalpha_theta2;
+
+% 3nd gradient component for i
+bhat_ml_noalpha_theta3 = bhat_ml_noalpha;
+bhat_ml_noalpha_theta3(3, 1) = bhat_ml_noalpha(3, 1)*1.001;
+dll_i_noalphadtheta3 = zeros(N, 1);
+for i = 1:N
+  dll_i_noalphadtheta3(i, 1) = (ll_i_noalpha(bhat_ml_noalpha_theta3, i) - ll_i_noalpha(bhat_ml_noalpha, i))/(0.001*bhat_ml_noalpha(3, 1));
+end
+clear i bhat_ml_noalpha_theta3;
+
+% Creating numerical gradient for i
+dll_i_noalphadtheta = [dll_i_noalphadtheta1 dll_i_noalphadtheta2 dll_i_noalphadtheta3];
+clear dll_i_noalphadtheta1 dll_i_noalphadtheta2 dll_i_noalphadtheta3;
+dll_i_noalphadtheta = dll_i_noalphadtheta';
+
+% Calculating numerical var-cov matrix
+varcov_matrix_ml_noalpha = zeros(3, 3);
+for i = 1:N
+  varcov_matrix_ml_noalpha_i = dll_i_noalphadtheta(:, i)*dll_i_noalphadtheta(:, i)';
+  varcov_matrix_ml_noalpha = varcov_matrix_ml_noalpha + varcov_matrix_ml_noalpha_i;
+end
+clear i dll_i_noalphadtheta varcov_matrix_ml_noalpha_i;
+varcov_matrix_ml_noalpha = inv(varcov_matrix_ml_noalpha);
+% Obtaining numerical var and SE of (theta0, theta1, theta2)
+var_bhat_ml_noalpha = diag(varcov_matrix_ml_noalpha);
+clear varcov_matrix_ml_noalpha;
+se_bhat_ml_noalpha = sqrt(var_bhat_ml_noalpha);
+clear var_bhat_ml_noalpha;
+
+%=======
+% ANSWER
+%=======
+% se_bhat_ml_noalpha = [0.152047643090909, 0.144868687121223, 0.0764856965108348]
+%         \approx [0.1520, 0.1449, 0.0765].
+%===========
+% END ANSWER
+%===========
+
+% Recall that when applying a linear regression on panel data without
+% accounting for the characteristics of said panel data (e.g., unobserved
+% heterogeneity, individual error terms that vary over time, our sample
+% size is essentially NT. In this case, our sample size is NT = 2000.
+
+% Calculating two-sided t-statistic for each parameter estimate. We assume
+% that the null hypothesis be that the parameter's true value is zero.
+tstat_bhat_ml_noalpha = zeros(3, 1);
+for i = 1:3
+  tstat_bhat_ml_noalpha(i, 1) = bhat_ml_noalpha(i, 1)/se_bhat_ml_noalpha(i, 1);
+end
+clear i;
+
+% Calculating p-values of a two-sided t-test. We are using df = N*T - 2
+% because we have three variables: p_{i, t} and y_{i, t}.
+pvalue_bhat_ml_noalpha = zeros(3, 1);
+for i = 1:3
+  pvalue_bhat_ml_noalpha(i, 1) = 2*(1 - tcdf(abs(tstat_bhat_ml_noalpha(i, 1)), N*T - 2));
+end
+clear i;
+
+%=======
+% ANSWER
+%=======
+% tstat_bhat_ml = [-6.23803687893477, 5.03712227680402, 13.2285198335865]
+%               \approx [-6.2380, 5.0371, 13.2285].
+
+% pvalue_bhat_ml = [5.39353450790259e-10, 5.15070650575211e-07, 0]
+%                \approx [5.3935e-10, 5.1507e-07, 0].
+
+% When re-estimating the model without unobserved, individual heterogenity,
+% we see that the estimate of theta2 increased by almost a factor of
+% double. The reason for this is because \alpha_i is now an omitted
+% variable which correlated with the previous state, y_{i, t - 1}. As a
+% result, the omitted variable bias puts upward pressure on the parameter
+% estimates. This is especially true for theta2, the parameter associated
+% with state dependence.
 %===========
 % END ANSWER
 %===========
@@ -344,4 +556,22 @@ clear var_bhat_ml;
 
 % Substituting this into our inner-probabability-product will give us
 % expression (3) of the likelihood function displayed in the problem set.
+
+%=========
+% Part 3f:
+%=========
+% If we use only linear probability models, one method to "crudely" test
+% the null hypothesis that there is no state dependence would be to
+% estimate the following linear probability model:
+
+% y_{i, t} = theta1*p_{i, t} + theta2*p_{i, t - 1} + e_{i, t}.
+
+% With this model, we could estimate the parameters, then run a two-sided t
+% test on the parameter estimate of theta2. In order for this test to work,
+% the following key "exclusion" restrictions need to hold:
+
+% 1. We need price in general to be exogenous from y_{i, t};
+% 2. We need p_{i, t - 1} to only affect y_{i, t} through previous state
+% y_{i, t - 1}. This comes from our original DCM and the definition of
+% U_{i, t}.
 %==========================================================================
