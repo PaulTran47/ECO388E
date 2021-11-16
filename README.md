@@ -28,7 +28,7 @@ This repository houses all problem sets and associated solutions for ECO388E: St
 
 ---
 
-### Problem set 1
+### [Problem set 1](https://github.com/PaulTran47/ECO388E/tree/main/problemset1)
 Integrating out unobservables for linear and invertible model; non-linear and invertible model; and non-linear and non-invertible model.
 
 <p align="right">
@@ -37,7 +37,7 @@ Integrating out unobservables for linear and invertible model; non-linear and in
 
 ---
 
-### Problem Set 2
+### [Problem Set 2](https://github.com/PaulTran47/ECO388E/tree/main/problemset2)
 Binary logit and probit discrete choice models; endogeneity in discrete choice models; discrete choice models with panel data.
 
 <p align="right">
