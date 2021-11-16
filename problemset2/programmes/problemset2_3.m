@@ -558,7 +558,7 @@ clear i;
 % expression (3) of the likelihood function displayed in the problem set.
 
 %=========
-% Part 3f:
+% Part 3g:
 %=========
 % If we use only linear probability models, one method to "crudely" test
 % the null hypothesis that there is no state dependence would be to
