@@ -562,16 +562,34 @@ clear i;
 %=========
 % If we use only linear probability models, one method to "crudely" test
 % the null hypothesis that there is no state dependence would be to
-% estimate the following linear probability model:
+% estimate the following 2SLS regression:
 
-% y_{i, t} = theta1*p_{i, t} + theta2*p_{i, t - 1} + e_{i, t}.
+% p(y_{i, t} = 1 | p_{i, t}, y_{i, t - 1}) = theta0 + theta1*p_{i, t} + theta2*y_{i, t - 1} + e_{i, t};
+% y_{i, t - 1} = theta3 + theta4*p_{i, t} + theta5*p_{i, t - 1} + eta_{i, t}.
 
-% With this model, we could estimate the parameters, then run a two-sided t
-% test on the parameter estimate of theta2. In order for this test to work,
-% the following key "exclusion" restrictions need to hold:
+% Our relevant exclusion principles needed for prices to be a valid
+% instrument are that:
 
 % 1. We need price in general to be exogenous from y_{i, t};
 % 2. We need p_{i, t - 1} to only affect y_{i, t} through previous state
-% y_{i, t - 1}. This comes from our original DCM and the definition of
-% U_{i, t}.
+% y_{i, t - 1}.
+
+% It should be mentioned that instead of doing 2SLS, Chamberlain mentions
+% an even simpler way to test for the statistical significance of state
+% dependence. Specifically, one only needs to run a simple linear
+% regression of y_{i, t} itself on some general function of p_{i, t} and
+% p_{i, t - 1} (in some ways, this is the reduced form of our 2SLS
+% regression above). If the parameter associated with p_{i, t - 1} is zero,
+% then we know state dependence is not relevant and statistically
+% significant.
+
+% The simplest example of this is:
+
+% y_{i, t} = theta1*p_{i, t} + theta2*p_{i, t - 1} + e_{i, t}.
+
+% The same exclusion principles apply:
+
+% 1. We need price in general to be exogenous from y_{i, t};
+% 2. We need p_{i, t - 1} to only affect y_{i, t} through previous state
+% y_{i, t - 1}.
 %==========================================================================
