@@ -282,7 +282,7 @@ end
 clear i;
 
 % Calculating p-values of a two-sided t-test. We are using df = N*T - 2
-% because we have three variables: p_{i, t} and y_{i, t}.
+% because we have two variables: p_{i, t} and y_{i, t}.
 pvalue_bhat_ml = zeros(4, 1);
 for i = 1:4
   pvalue_bhat_ml(i, 1) = 2*(1 - tcdf(abs(tstat_bhat_ml(i, 1)), N*T - 2));
@@ -463,13 +463,13 @@ clear i;
 % pvalue_bhat_ml = [5.39353450790259e-10, 5.15070650575211e-07, 0]
 %                \approx [5.3935e-10, 5.1507e-07, 0].
 
-% When re-estimating the model without unobserved, individual heterogenity,
-% we see that the estimate of theta2 increased by almost a factor of
-% double. The reason for this is because \alpha_i is now an omitted
-% variable which correlated with the previous state, y_{i, t - 1}. As a
-% result, the omitted variable bias puts upward pressure on the parameter
-% estimates. This is especially true for theta2, the parameter associated
-% with state dependence.
+% When re-estimating the model without unobserved, individual
+% heterogeneity, we see that the estimate of theta2 increased by almost a
+% factor of double (in terms of absolute magnitude). The reason for this is
+% because \alpha_i is now an omitted variable which is correlated with the
+% previous state, y_{i, t - 1}. As a result, the omitted variable bias puts
+% upward pressure on the paramter estimates. This is especially true for
+% theta2, the parameter associated with state dependence.
 %===========
 % END ANSWER
 %===========
@@ -498,9 +498,9 @@ clear i;
 
 % p(I(U_{i, t} > 0) | p_{i, t}, y_{i, t - 1}, \alpha_i; theta).
 
-% Because e_{i, t} are iid, this means they are independent over time.
+% Because e_{i, t} is iid, this means they are independent over time.
 % Observe that this holds because the individual unobserved heterogeneity
-% is integrated out nad accounted for.
+% is integrated out and accounted for.
 % As a result, we know the following holds:
 
 % p(I(U_{i, t} > 0) | p_{i, t}, y_{i, t - 1}, \alpha_i; theta) \perp p(I(U_{i, t + 1} > 0) | p_{i, t + 1}, y_{i, t}, \alpha_i; theta).
@@ -514,7 +514,7 @@ clear i;
 % on p_{i, t}, y_{i, t - 1}, \alpha_i, and parameters, factoring the inner
 % joint probability of our likelihood function for consumer i becomes
 
-% L_i = \int \[\prod_{t = 1}^{T} p(y_{i, t} | p_{i, t}, y_{i, t - 1}, \alpha_i; theta)\]*p(\alpha_i).
+% L_i = \int [\prod_{t = 1}^{T} p(y_{i, t} | p_{i, t}, y_{i, t - 1}, \alpha_i; theta)]*p(\alpha_i).
 
 %=========
 % Part 3b:
@@ -535,7 +535,7 @@ clear i;
 % Part 3c:
 %=========
 % Recall that y_i = I(U_{i, t} > 0). That means the inner probability terms
-% of the product is:
+% of the product are:
 
 % p(y_{i, t} | p_{i, t}, y_{i, t - 1}, \alpha_i; theta) = p(I(U_{i, t} > 0) | p_{i, t}, y_{i, t - 1}, \alpha_i; theta).
 
@@ -554,7 +554,7 @@ clear i;
 
 % p(y_{i, t} | p_{i, t}, y_{i, t - 1}, \alpha_i; theta) = y_{i, t}*\frac{exp(theta0 + theta1*p_{i, t} + theta2*y_{i, t - 1} + sigma_alpha*\alpha_{i})}{1 + exp(theta0 + theta1*p_{i, t} + theta2*y_{i, t - 1} + sigma_alpha*\alpha_{i})} + (1 - y_{i, t})*\frac{1}{1 + exp(theta0 + theta1*p_{i, t} + theta2*y_{i, t - 1} + sigma_alpha*\alpha_{i})}.
 
-% Substituting this into our inner-probabability-product will give us
+% Substituting this into our inner-probability-product will give us
 % expression (3) of the likelihood function displayed in the problem set.
 
 %=========
@@ -575,13 +575,12 @@ clear i;
 % y_{i, t - 1}.
 
 % It should be mentioned that instead of doing 2SLS, Chamberlain mentions
-% an even simpler way to test for the statistical significance of state
-% dependence. Specifically, one only needs to run a simple linear
-% regression of y_{i, t} itself on some general function of p_{i, t} and
-% p_{i, t - 1} (in some ways, this is the reduced form of our 2SLS
-% regression above). If the parameter associated with p_{i, t - 1} is zero,
-% then we know state dependence is not relevant and statistically
-% significant.
+% an even simpler way to test for the relevancy of state dependence.
+% Specifically, one only needs to run a simple linear regression of
+% y_{i, t} on some general function of p_{i, t} and p_{i, t - 1} (in some
+% ways, this is the reduced form of our 2SLS regression above). If the
+% parameter associated with p_{i, t - 1} is zero, then we know state
+% dependence is not relevant.
 
 % The simplest example of this is:
 

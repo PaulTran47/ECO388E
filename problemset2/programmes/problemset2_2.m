@@ -266,10 +266,10 @@ p_value = 2*(1 - tcdf(abs(tstat), N - 3));
 %=======
 % ANSWER
 %=======
-% Given our t-statistic (with df = 752) and associated p-value, we reject
-% the null hypothesis at an alpha level of 0.05. As a result, we can say
-% it's possible that x2_i is correlated with e_i, and thus, x2_i is
-% endogenous.
+% Given our t-statistic (with df = 752) of -16.6327 and associated p-value
+% of essentially zero, we reject the null hypothesis at an alpha level of
+% 0.05. As a result, we can say that it's possible x2_i is correlated with
+% with e_i, and thus, x2_i is endogenous.
 %===========
 % END ANSWER
 %===========
@@ -312,8 +312,8 @@ p_value = 2*(1 - tcdf(abs(tstat), N - 3));
 % with x2_i. This is because a parent often serves as a role model.
 
 % Finally, the assumption that z_i does not directly determine y_i
-% (i.e., z_i affects y_i only through x2_i) is exclusion restriction. This
-% is one of the three principles that makes for a "good"/"robust"
+% (i.e., z_i affects y_i only through x2_i) is the exclusion restriction.
+% This is one of the three principles that makes for a "good"/"robust"
 % instrument in IV estimation. Without the exclusion restriction, theta2
 % would not be identified non-parametrically.
 
@@ -346,15 +346,16 @@ p_value = 2*(1 - tcdf(abs(tstat), N - 3));
 % result, we can write the following expression:
 % p(x2_i | x1_i, z_i; theta) = p(x2_i | x1_i, z_i, eta_i; theta)
 % However, we see that the RHS can only be found if we partially integrate
-% out an unobservable. As mentioned in the beginning, we choose tau_i:
+% out an unobservable. As mentioned in the beginning, we choose to
+% integrate out tau_i:
 
 % p(x2_i | x1_i, z_i, eta_i; theta) = \int p(x2_i | x1_i, z_i, eta_i, tau_i; theta)*p(tau_i)dtau_i.
 
-% We are able to use the unconditional p(tau_i) because of assumption that 
-% tau_i is independent of x1_i, x2_i, z_i, eta_i, and e_i. Finally, because
-% x2_i is invertible in eta_i, we apply the ToRV:
+% We are able to use the unconditional p(tau_i) because of the assumption
+% that tau_i is independent of x1_i, x2_i, z_i, eta_i, and e_i. Finally,
+% because x2_i is invertible in eta_i, we apply the ToRV:
 
-% p(x2_i | x1_i, z_i, eta_i; theta) = \int p(eta_i | x1_i, z_i, x2_i, tau_i; theta)*abs(det(deta_i/dy_i))*p(tau_i)dtau_i.
+% p(x2_i | x1_i, z_i, eta_i; theta) = \int p(eta_i | x1_i, z_i, x2_i, tau_i; theta)*abs(\det{deta_i/dy_i})*p(tau_i)dtau_i
 %                                   = inv(S)*\sum_{j}^{S} normpdf(eta_i/sigma_eta)/sigma_eta,
 
 % where
@@ -365,7 +366,7 @@ p_value = 2*(1 - tcdf(abs(tstat), N - 3));
 
 % p(x2_i | x1_i, z_i; theta) = inv(S)*\sum_{j}^{S} normpdf(x2_i - theta3 - (theta4 + sigma_tau*tau_{i}^{j})x1_i - theta5*z_i)/sigma_eta
 
-% To find an expression for for p(y_i | x1_i, x2_i, z_i, eta_i; theta), we
+% To find an expression for p(y_i | x1_i, x2_i, z_i, eta_i; theta), we
 % again partially integrate out tau_i:
 
 % p(y_i | x1_i, x2_i, z_i, eta_i; theta) = \int p(y_i | x1_i, x2_i, z_i, eta_i, tau_i; theta)*p(tau_i)dtau_i.
@@ -374,7 +375,7 @@ p_value = 2*(1 - tcdf(abs(tstat), N - 3));
 % tau_i is independent of x1_i, x2_i, z_i, eta_i, and e_i.
 % Simulating this integral gives us:
 
-% p(y_i | x1_i, x2_i, z_i, eta_i; theta) = inv(S)*\sum_{j}^{S} p(y_i | x1_i, x2_i, z_i, tau_{i}^{j}, eta_i; theta),
+% p(y_i | x1_i, x2_i, z_i, eta_i; theta) = inv(S)*\sum_{j}^{S} p(y_i | x1_i, x2_i, z_i, tau_{i}^{j}, eta_i; theta).
 
 % We must now modify our kappa_i equation that is in the second stage
 % equation due to the structure of x2_i changing. Essentially, this just
@@ -387,19 +388,18 @@ p_value = 2*(1 - tcdf(abs(tstat), N - 3));
 % L = \sum_{i}^{N} ln(p(x2_i | x1_i, z_i; theta)) + ln(p(y_i | x1_i, x2_i, z_i, eta_i; theta)),
 
 % where (recapping everything)
-% p(y_i | x1_i, x2_i, z_i, eta_i; theta) = inv(S)*\sum_{j}^{S} y_i*normcdf((kappa_i + (rho/sigma_eta)*eta_i)/(1 - rho^2)) + (1 - y_i)*normcdf((kappa_i + (rho/sigma_eta)*eta_i)/(1 - rho^2)),
-% where
-% eta_i = x2_i - theta3 - (theta4 + sigma_tau*tau_{i}^{j})x1_i - theta5*z_i,
-% kappa_i = theta0 + theta2*theta3 + (theta1 + theta2*(theta4 + sigma_tau*tau_{i}^{j}))*x1_i + theta2*theta5*z_i + theta2*eta_i,
-% S represents the number of simulated draws we take of tau_i,
+% p(y_i | x1_i, x2_i, z_i, eta_i; theta) = inv(S)*\sum_{j}^{S} y_i*normcdf((kappa_i + (rho/sigma_eta)*eta_i)/(1 - rho^2)) + (1 - y_i)*normcdf((kappa_i + (rho/sigma_eta)*eta_i)/(1 - rho^2));
+% eta_i = x2_i - theta3 - (theta4 + sigma_tau*tau_{i}^{j})x1_i - theta5*z_i;
+% kappa_i = theta0 + theta2*theta3 + (theta1 + theta2*(theta4 + sigma_tau*tau_{i}^{j}))*x1_i + theta2*theta5*z_i + theta2*eta_i;
+% S represents the number of simulated draws we take of tau_i;
 % j = 1, ..., S is simulated draw itself.
 
 %=========
 % Part 2h:
 %=========
 % Observe that we now have 9 parameters in our model: theta0 - theta5,
-% rho, sigma_eta, and sigma_tau. We aim to choose 9 moments for MSM
-% estimation. Furthermore, observe that our model is basically an
+% rho, sigma_eta, and sigma_tau. We aim to choose at least 9 moments for
+% MSM estimation. Furthermore, observe that our model is basically an
 % application of the general case of endogeneity in non-invertible models
 % section of class. Because of this, it is simplest to form generic moments
 % using the "reduced form" of our model:
@@ -413,7 +413,7 @@ p_value = 2*(1 - tcdf(abs(tstat), N - 3));
 % iv. \widetilde{y_i}^2 - E[\widetilde{y_i}^2 | x1_i, z_i; theta];
 
 % Translating the "generic" moments of the "reduced form" to the original
-% model yields the following eight moments:
+% model yield the following eight moments:
 % 1. y_i - E[y_i | x1_i, z_i; theta];
 % 2. (y_i - E[y_i | x1_i, z_i; theta])*x1_i;
 % 3. (y_i - E[y_i | x1_i, z_i; theta])*z_i;
@@ -421,17 +421,17 @@ p_value = 2*(1 - tcdf(abs(tstat), N - 3));
 % 5. (x2_i - E[x2_i | x1_i, z_i; theta])*x1_i;
 % 6. (x2_i - E[x2_i | x1_i, z_i; theta])*z_i;
 % 7. y_i^2 - E[y_i^2 | x1_i, z_i; theta];
-% 8. x2_i^2 - E[x2_i^2 | x1_i, z_i; theta];
+% 8. x2_i^2 - E[x2_i^2 | x1_i, z_i; theta].
 
 % Moments seven and eight (iv) will help in identifying parameters rho and
 % sigma_eta. This is because the squared terms capture more of the
-% endogeneity effect. Recall our independence assumption about tau_i. From
-% it, we can state that
+% endogeneity effect and variance. Recall our independence assumption
+% about tau_i. From it, we can state that
 
-% E[tau_i*x1_i] = E[tau_i*z_i] = 0;
+% E[tau_i*x1_i] = E[tau_i*z_i] = 0.
 
 % Therefore, using the idea that squared terms capture more information
-% about variance related parameters, the moments nine and 10 should help
+% about variance-related parameters, the moments nine and 10 should help
 % identify sigma_tau:
 % 9. E[tau_i*x1_i^2] = 0;
 % 10. E[tau_i*z_i^2] = 0.
@@ -443,14 +443,14 @@ p_value = 2*(1 - tcdf(abs(tstat), N - 3));
 % the SML estimator is always efficient in that all the necessary moments
 % are included in the estimation. In contrast, the MSM estimator is only
 % efficient if we choose the optimal moments function. Otherwise, it will
-% not be so. Additionally, the SML estimator in part 2g has the advantange
+% not be so. Additionally, the SML estimator in part 2g has the advantage
 % in that we only need to simulate draws for tau_i.
 
 % The MSM estimator has the big advantage in that it will remain
 % consistent holding the number of simulated draws we take of the error
 % terms integrated out constant. In contrast, the SML estimator requires
-% the set of simulated draws to approach infinity in order to be
-% consistent.
+% the set of simulated draws to approach infinity in order for the 
+% estimator to be consistent.
 
 %=========
 % Part 2j:
@@ -461,22 +461,22 @@ p_value = 2*(1 - tcdf(abs(tstat), N - 3));
 % stage equation into the second stage equation yields the model single-
 % equation form:
 
-% y_i = I(kappa_i + e_i > 0),
+% y_i = I(kappa_i + e_i > 0)
 % ==> E[y_i | x1_i, z_i; theta] = \int \int I(kappa_i + e_i > 0)*p(tau_i)*p(e_i | eta_i)*dtau_i*de_i
 
 % where
 % kappa_i = theta0 + theta2*theta3 + (theta1 + theta2*(theta4 + sigma_tau*tau_i))*x1_i + theta2*theta5*z_i + theta2*eta_i.
 % Consider the change of variables u_i = kappa_i + e_i. Our model is then:
 
-% y_i = I(u_i > 0).
+% y_i = I(u_i > 0)
 % ==> E[y_i | x1_i, z_i; theta] = \int I(u_i > 0)*(p(u_i | x1_i, z_i; sigma_tau, sigma_eta, theta)/h(u_i))*h(u_i)*du_i.
 
 % Recall from class that we want h(u_i) to be some density that doesn't
 % depend on theta. If we only care about smoothing, let h(u_i) be density
-% p(u_i | ...) at evaluated for initial guess on sigma_u and theta. We then
+% p(u_i | ...) evaluated at initial guess on sigma_u and theta. We then
 % get our simulation for E[y_i | x1_i, z_i; theta]:
 
-% E[y_i | x1_i, z_i; theta] = inv(S)*\sum_{j}^{S} I(u_{i}^{j} > 0)*(p(u_{i}^{S} | x1_i, z_i; sigma_tau, sigma_eta theta)/h(u_{i}^{S})),
+% E[y_i | x1_i, z_i; theta] = inv(S)*\sum_{j}^{S} I(u_{i}^{j} > 0)*(p(u_{i}^{S} | x1_i, z_i; sigma_tau, sigma_eta, theta)/h(u_{i}^{S})),
 
 % where
 % % S represents the number of simulated draws we take of u_i,
@@ -501,13 +501,13 @@ p_value = 2*(1 - tcdf(abs(tstat), N - 3));
 % Stata's "ivprobit" command requires the following model assumptions to
 % produce consistent estimates:
 
-% 1. (eta_i, e_i) ~ iid multivariate normal, \forall i.
+% 1. (eta_i, e_i) ~ iid multivariate normal, \forall i;
 % 2. e_i is homoscedastic;
-% 3. The endogenous regressors (i.e., x2_i) is continuous.
+% 3. The endogenous regressors (i.e., x2_i) are continuous.
 
 % ivprobit wouldn't be able to estimate our model in part 2f primarily
 % because the assumption regarding homoscedasticity would be violated. This
 % is because estimates for sigma_tau are determined in part by x1_i. With
-% our model being in single-wquation form, we clear see homoscedasticity is
-% violated.
+% our model being in single-equation form, we clearly see homoscedasticity
+% is violated.
 %==========================================================================

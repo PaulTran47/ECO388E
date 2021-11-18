@@ -103,7 +103,7 @@ bhat_ml_bl_p_theta1(1, 1) = bhat_ml_bl(1, 1)*1.001;
 bhat_ml_bl_m_theta1 = bhat_ml_bl;
 bhat_ml_bl_m_theta1(1, 1) = bhat_ml_bl(1, 1)*0.999;
 dll_i_bldtheta1 = (ll_i_bp(bhat_ml_bl_p_theta1) - ll_i_bp(bhat_ml_bl_m_theta1))/(2*0.001*bhat_ml_bl(1, 1));
-clear bhat_ml_bp_p_theta1 bhat_ml_bp_m_theta1;
+clear bhat_ml_bl_p_theta1 bhat_ml_bl_m_theta1;
 
 % 2nd gradient component for i
 bhat_ml_bl_p_theta2 = bhat_ml_bl;
@@ -111,7 +111,7 @@ bhat_ml_bl_p_theta2(2, 1) = bhat_ml_bl(2, 1)*1.001;
 bhat_ml_bl_m_theta2 = bhat_ml_bl;
 bhat_ml_bl_m_theta2(2, 1) = bhat_ml_bl(2, 1)*0.999;
 dll_i_bldtheta2 = (ll_i_bp(bhat_ml_bl_p_theta2) - ll_i_bp(bhat_ml_bl_m_theta2))/(2*0.001*bhat_ml_bl(2, 1));
-clear bhat_ml_bp_p_theta2 bhat_ml_bp_m_theta2;
+clear bhat_ml_bl_p_theta2 bhat_ml_bl_m_theta2;
 
 % 3nd gradient component for i
 bhat_ml_bl_p_theta3 = bhat_ml_bl;
@@ -119,11 +119,11 @@ bhat_ml_bl_p_theta3(3, 1) = bhat_ml_bl(3, 1)*1.001;
 bhat_ml_bl_m_theta3 = bhat_ml_bl;
 bhat_ml_bl_m_theta3(3, 1) = bhat_ml_bl(3, 1)*0.999;
 dll_i_bldtheta3 = (ll_i_bp(bhat_ml_bl_p_theta3) - ll_i_bp(bhat_ml_bl_m_theta3))/(2*0.001*bhat_ml_bl(3, 1));
-clear bhat_ml_bp_p_theta3 bhat_ml_bp_m_theta3;
+clear bhat_ml_bl_p_theta3 bhat_ml_bl_m_theta3;
 
 % Creating numerical gradient for i
 dll_i_bldtheta = [dll_i_bldtheta1 dll_i_bldtheta2 dll_i_bldtheta3];
-clear dll_i_bpdtheta1 dll_i_bpdtheta2 dll_i_bpdtheta3;
+clear dll_i_bldtheta1 dll_i_bldtheta2 dll_i_bldtheta3;
 dll_i_bldtheta = dll_i_bldtheta';
 
 % Calculating numerical var-cov matrix
@@ -132,12 +132,12 @@ for i = 1:N
   varcov_matrix_ml_bl_i = dll_i_bldtheta(:, i)*dll_i_bldtheta(:, i)';
   varcov_matrix_ml_bl = varcov_matrix_ml_bl + varcov_matrix_ml_bl_i;
 end
-clear i varcov_matrix_ml_bp_i dll_i_bpdtheta;
+clear i varcov_matrix_ml_bl_i dll_i_bldtheta;
 varcov_matrix_ml_bl = inv(varcov_matrix_ml_bl);
 
 % Obtaining numerical var and SE of (theta1, theta2, theta3)
 var_bhat_ml_bl = diag(varcov_matrix_ml_bl);
-clear varcov_matrix_ml_bp;
+clear varcov_matrix_ml_bl;
 se_bhat_ml_bl = sqrt(var_bhat_ml_bl);
 clear var_bhat_ml_bp;
 
@@ -299,8 +299,8 @@ se_bhat_ml_bl_mnrfit = stats.se;
 
 % However, the overall curvature of both distributions are similar. This is
 % because the structure of the model (i.e., the relation between the
-% variables and and the error term) has not changed. As a result, the ratio
-% amongst coefficients within probit and logit don't change much at all.
+% variables and the error term) has not changed. As a result, the ratio
+% amongst coefficients under probit and logit don't change much at all.
 %===========
 % END ANSWER
 %===========
