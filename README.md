@@ -46,8 +46,8 @@ Binary logit and probit discrete choice models; endogeneity in discrete choice m
 
 ---
 
-### Problem Set 3
-Soon TM.
+### [Problem Set 3](https://github.com/PaulTran47/ECO388E/tree/main/problemset3)
+Infinite-horizon dynamic programming problem based off of Rust (1987) value function iteration; infinite-horizon dynamic programming problem based off of Hotz-Miller (1993); testing convergence between the approaches of Rust (1987) and Hotz-Miller (1993)
 
 <p align="right">
   (<a href="#ut-austin-structural-econometrics">back to top.</a>)
