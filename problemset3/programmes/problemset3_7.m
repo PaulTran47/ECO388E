@@ -97,13 +97,13 @@
 % {i(a_{jt}, \epsilon_{jt}) = 1}_{t < T}. From this, we can
 % write the likelihood function as follows:
 
-% p({{i(a_{jt}, \epsilon_{jt}) = 1}_{t < T}) = \alpha*p({{i(a_{jt}, \epsilon_{jt}) = 1}_{t < T}; \theta_{1A}) + (1 - \alpha)*p({{i(a_{jt}, \epsilon_{jt}) = 1}_{t < T}; \theta_{1B}).
+% p({i(a_{jt}, \epsilon_{jt}) = 1}_{t < T}) = \alpha*p({i(a_{jt}, \epsilon_{jt}) = 1}_{t < T}; \theta_{1A}) + (1 - \alpha)*p({i(a_{jt}, \epsilon_{jt}) = 1}_{t < T}; \theta_{1B}).
 
 % As before, if we assume both the error terms are iid logit errors and
 % conditional independence, we obtain the following expression for the
 % likelihood function:
 
-% p({{i(a_{jt}, \epsilon_{jt}) = 1}_{t < T}) = \alpha*\prod_{t < T} \frac{e^{V_{1A}(a_{jt}, \epsilon_{jt})}}{e^{V_{1A}(a_{jt}, \epsilon_{jt})} + e^{V_{0A}(a_{jt}, \epsilon_{jt})}} + (1 - \alpha)*\prod_{t < T} \frac{e^{V_{1B}(a_{jt}, \epsilon_{jt})}}{e^{V_{1B}(a_{jt}, \epsilon_{jt})} + e^{V_{0B}(a_{jt}, \epsilon_{jt})}}.
+% p({i(a_{jt}, \epsilon_{jt}) = 1}_{t < T}) = \alpha*\prod_{t < T} \frac{e^{V_{1A}(a_{jt}, \epsilon_{jt})}}{e^{V_{1A}(a_{jt}, \epsilon_{jt})} + e^{V_{0A}(a_{jt}, \epsilon_{jt})}} + (1 - \alpha)*\prod_{t < T} \frac{e^{V_{1B}(a_{jt}, \epsilon_{jt})}}{e^{V_{1B}(a_{jt}, \epsilon_{jt})} + e^{V_{0B}(a_{jt}, \epsilon_{jt})}}.
 %===========
 % END ANSWER
 %===========
@@ -121,7 +121,7 @@
 % essentially saying that the model now considers machine type to be a
 % state variable that has to be included. Additionally,, machines differing
 % will now result in our error terms \epsilon_{jt} to be serially
-% correlated. This will result in the expectations operator seem in all our
+% correlated. This will result in the expectations operator seen in all our
 % "alternative-specific" value functions to be conditioned on \epsilon_{jt}
 % now. Due to there being many "alternative-specific" value functions now
 % with the different types assumed, we will write the "general" change that
@@ -151,7 +151,7 @@
 % period of data. In other words, whilst we have a "complete" model of how
 % (i_{j1}, \ldots, i_{jT}) and (a_{j2}, \ldots, a_{jT}) are determined, we
 % do not have a "complete" model of how age a_{j1} is determined. This is
-% becuase we do not observe a_{j0}, \epsilon_{j0}, and i_{0t}. As a result,
+% because we do not observe a_{j0}, \epsilon_{j0}, and i_{0t}. As a result,
 % any serial correlation in the error terms that our model observes will
 % either be due to unobserved heterogeneity or by the initial draw of
 % \epsilon_{jt}. We should note that this is a problem just for the

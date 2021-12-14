@@ -196,9 +196,9 @@ diff_e0e1 = theta0(1, 1)*a - theta0(1, 2) + beta*((gamma + log(exp(v0(a + 1, 1))
 % Given our calculated difference in the error terms, we see that a firm is
 % indifferent between replacing and keeping a machine whose age is 2 when
 % said difference is equal to -0.114487971844367. If the difference is less
-% than -0.114487971844367, then the firm will not replace the engine. If
+% than -0.114487971844367, then the firm will not replace the machine. If
 % the difference is greater than -0.114487971844367, then the firm will
-% replace the engine.
+% replace the machine.
 %===========
 % END ANSWER
 %===========
@@ -218,7 +218,7 @@ p1_diff_e0e1 = exp(-diff_e0e1)/(1 + exp(-diff_e0e1));
 % END ANSWER
 %===========
 
-% Calculating PDF of future profits for a firm at state {a_{t} = 4,
+% Calculating PDV of future profits for a firm at state {a_{t} = 4,
 % \epsilon_{0t} = 1, \epsilon_{1t} = -1.5}
 % Initialising specific variables
 a = 4;
@@ -229,7 +229,7 @@ pdv = max(theta0(1, 1)*a + e0 + beta.*v0(a, 1), theta0(1, 2) + e1 + beta.*v1(a, 
 %=======
 % ANSWER
 %=======
-% The PDF of future profits for a firm at state {a_{t} = 4,
+% The PDV of future profits for a firm at state {a_{t} = 4,
 % \epsilon_{0t} = 1, \epsilon_{1t} = -1.5} is -14.7547873524102. As a
 % result, we see that it is still cheaper for the firm to replace the
 % machine in this period than to wait until age 5 to replace.

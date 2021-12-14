@@ -156,7 +156,7 @@ clear theta0;
 % depends on how old the machine is. Specifically, the firm's decision is
 % based on the expected future costs of its machine. This in turn is
 % dependent on the current age of the machine. As a result, the likelihood
-% must be condition on age a_{t} in order to do our estimation of
+% must be conditioned on age a_{t} in order to do our estimation of
 % parameters.
 %===========
 % END ANSWER
@@ -221,7 +221,7 @@ se_bhat_ml = sqrt(var_bhat_ml);
 % ANSWER
 %=======
 % The SEs for our MLE of parameters (\theta_{1}, R),
-% ((SE(\hat{\theta_{1}}), \hat{R})), is
+% ((SE(\hat{\theta_{1}}), SE(\hat{R}))), is
 % (0.0748766496059878, 0.320982104639120).
 %===========
 % END ANSWER

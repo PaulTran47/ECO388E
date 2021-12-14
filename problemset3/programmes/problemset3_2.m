@@ -61,10 +61,10 @@
 % original problem (the HZ problem) is that in the latter, the bus engine
 % mileage, x_{t}, is a continuous variable. In the former, the equivalent
 % machine age, a_{t}, is a discrete variable that can only take values in
-% the set {1, 2, 3, 4, 5}. The second difference we seen between the profit
+% the set {1, 2, 3, 4, 5}. The second difference we see between the profit
 % functions of the problem set and the class notes is that the expected
-% cost function of operating a machine with age a_{t}, c(a_{t}; \theta), is
-% equal to \theta_{1}a_[t} in the problem set. As a result, we have in the
+% cost function of operating a machine with (a_{t}, c(a_{t}; \theta), is
+% equal to \theta_{1}a_{t} in the problem set. As a result, we have in the
 % problem set that c(0; \theta) = 0. This makes sense because having an age
 % of a_{t} = 0 is not technically possible.
 % Other technical differences are that the signs of R and c(a_{t}; \theta)

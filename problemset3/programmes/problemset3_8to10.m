@@ -249,7 +249,8 @@ error_5_89(1, :) = bhat_ml - bhat_ml_pseudo;
 % (-1.14950668226087, -4.45374809397243). Recall that our estimates using
 % value function iteration are (-1.14838831774149, -4.44640773763608). We
 % can see that the two estimates are quite close to each other already, and
-% only very slightly off.
+% only very slightly off. We did not calculate standard errors because of
+% the difficulty in doing so when involving pseudo-likelihoods.
 %===========
 % END ANSWER
 %===========
@@ -330,7 +331,8 @@ error_5_89(3, :) = bhat_ml - bhat_ml_pseudo_2;
 % (\theta_{1}, R), (\hat{\theta_{1}}, \hat{R}), are
 % (-1.14839273001228, -4.44646620719735). This is nearly identical to the
 % parameter estimates obtained by MLE and value function iteration in
-% problem 5.
+% problem 5. We did not calculate standard errors because of the difficulty
+% in doing so when involving pseudo-likelihoods.
 %===========
 % END ANSWER
 %===========
@@ -437,12 +439,14 @@ error_5_10(3, :) = bhat_ml - bhat_ml_pseudo_p1_hat_rand_2;
 %=======
 % The key difference between this problem and problem 9 is that our initial
 % value for conditional probabilities p1_hat are not from observed data,
-% but instead chosen randomly. Despite this difference, we find that still
-% after two iterations, our parameter estimates for
+% but instead chosen randomly. Specifically, we drew probabilities from a
+% standard uniform distribution. Despite this difference, we find that
+% still after two iterations, our parameter estimates for
 % (\theta_{1}, R), (\hat{\theta_{1}}, \hat{R}), are
 % (-1.14838916350878, -4.44642925238419). This is nearly identical to the
 % parameter estimates obtained by MLE and value function iteration in
-% problem 5.
+% problem 5. We did not calculate standard errors because of the difficulty
+% in doing so when involving pseudo-likelihoods.
 %===========
 % END ANSWER
 %===========
