@@ -1,4 +1,4 @@
-# UT Austin Structural Econometrics
+# UT Austin Structural and Nonparametrics Econometrics
 
 [MIT licensed](https://github.com/PaulTran47/ECO388E/blob/main/LICENCE.md).
 
@@ -24,7 +24,7 @@
 This repository houses all problem sets and associated solutions for ECO388E: Structural Econometrics at UT Austin, in fall 2021 (problem sets 1 - 3) and ECO388E: Advanced Econometric Theory I in spring 2022 (problem sets 4 - ). The solutions are written in Matlab by Paul Le Tran.
 
 <p align="right">
-  (<a href="#ut-austin-structural-econometrics">back to top.</a>)
+  (<a href="#ut-austin-structural-and-nonparametrics-econometrics">back to top.</a>)
 </p>
 
 ---
@@ -33,7 +33,7 @@ This repository houses all problem sets and associated solutions for ECO388E: St
 Integrating out unobservables for linear and invertible model; non-linear and invertible model; and non-linear and non-invertible model.
 
 <p align="right">
-  (<a href="#ut-austin-structural-econometrics">back to top.</a>)
+  (<a href="#ut-austin-structural-and-nonparametrics-econometrics">back to top.</a>)
 </p>
 
 ---
@@ -42,7 +42,7 @@ Integrating out unobservables for linear and invertible model; non-linear and in
 Binary logit and probit discrete choice models; endogeneity in discrete choice models; discrete choice models with panel data, state dependence, and unobserved, individual heterogeneity.
 
 <p align="right">
-  (<a href="#ut-austin-structural-econometrics">back to top.</a>)
+  (<a href="#ut-austin-structural-and-nonparametrics-econometrics">back to top.</a>)
 </p>
 
 ---
@@ -51,7 +51,7 @@ Binary logit and probit discrete choice models; endogeneity in discrete choice m
 Infinite-horizon dynamic programming problem based off of Rust (1987) value function iteration; infinite-horizon dynamic programming problem based off of Hotz-Miller (1993); testing convergence between the approaches of Rust (1987) and Hotz-Miller (1993)
 
 <p align="right">
-  (<a href="#ut-austin-structural-econometrics">back to top.</a>)
+  (<a href="#ut-austin-structural-and-nonparametrics-econometrics">back to top.</a>)
 </p>
 
 ---
@@ -60,7 +60,7 @@ Infinite-horizon dynamic programming problem based off of Rust (1987) value func
 Kernel density estimation and optimal bandwidth estimation using cross validation methods.
 
 <p align="right">
-  (<a href="#ut-austin-structural-econometrics">back to top.</a>)
+  (<a href="#ut-austin-structural-and-nonparametrics-econometrics">back to top.</a>)
 </p>
 
 ---
@@ -75,7 +75,7 @@ Kernel density estimation and optimal bandwidth estimation using cross validatio
   * [Econometrics Toolbox](https://www.mathworks.com/help/econ/).
 
 <p align="right">
-  (<a href="#ut-austin-advanced-macro-labour-i">back to top.</a>)
+  (<a href="#ut-austin-structural-and-nonparametrics-econometrics">back to top.</a>)
 </p>
 
 ---
