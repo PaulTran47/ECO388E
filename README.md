@@ -11,6 +11,7 @@
         <li><a href="#problem-set-1">Problem set 1</a></li>
         <li><a href="#problem-set-2">Problem set 2</a></li>
         <li><a href="#problem-set-3">Problem set 3</a></li>
+        <li><a href="#problem-set-4">Problem set 4</a></li>
       </ol>
     </li>
     <li><a href="#prerequisites">Prerequisites</a></li>
@@ -20,7 +21,7 @@
 ---
 
 ## Overview
-This repository houses all problem sets and associated solutions for ECO388E: Structural Econometrics at UT Austin, in fall 2021. The solutions are written in Matlab by Paul Le Tran.
+This repository houses all problem sets and associated solutions for ECO388E: Structural Econometrics at UT Austin, in fall 2021 (problem sets 1 - 3) and ECO388E: Advanced Econometric Theory I in spring 2022 (problem sets 4 - ). The solutions are written in Matlab by Paul Le Tran.
 
 <p align="right">
   (<a href="#ut-austin-structural-econometrics">back to top.</a>)
@@ -48,6 +49,15 @@ Binary logit and probit discrete choice models; endogeneity in discrete choice m
 
 ### [Problem Set 3](https://github.com/PaulTran47/ECO388E/tree/main/problemset3)
 Infinite-horizon dynamic programming problem based off of Rust (1987) value function iteration; infinite-horizon dynamic programming problem based off of Hotz-Miller (1993); testing convergence between the approaches of Rust (1987) and Hotz-Miller (1993)
+
+<p align="right">
+  (<a href="#ut-austin-structural-econometrics">back to top.</a>)
+</p>
+
+---
+
+### [Problem Set 4](https://github.com/PaulTran47/ECO388E/tree/main/problemset4)
+Kernel density estimation and optimal bandwidth estimation using cross validation methods.
 
 <p align="right">
   (<a href="#ut-austin-structural-econometrics">back to top.</a>)
