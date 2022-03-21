@@ -193,7 +193,7 @@ close(gcf);
 %==========================================================================
 
 %==========================================================================
-%% Part 3iii: Estimate the density of wage with the Gaussian kernel and h = 1.06*\hat{\sigma}*(n^{-r}), where r = 1/2, 1/3, 1/4, 1/5, 1/6, 1/7.
+%% Part 3iv: Estimate the density of wage with the Gaussian kernel and h = 1.06*\hat{\sigma}*(n^{-r}), where r = 1/2, 1/3, 1/4, 1/5, 1/6, 1/7.
 % Creating vector of wages from data table
 wage = table2array(wage1(:, 2));
 % Getting sample size
@@ -236,7 +236,7 @@ close(gcf);
 %==========================================================================
 
 %==========================================================================
-%% Part 3iii: Estimate the density of wage with the Gaussian kernel and h is chosen by the cross validation method.
+%% Part 3v: Estimate the density of wage with the Gaussian kernel and h is chosen by the cross validation method.
 %=====
 % NOTE
 %=====
