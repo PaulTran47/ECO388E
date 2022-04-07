@@ -12,6 +12,7 @@
         <li><a href="#problem-set-2">Problem set 2</a></li>
         <li><a href="#problem-set-3">Problem set 3</a></li>
         <li><a href="#problem-set-4">Problem set 4</a></li>
+        <li><a href="#problem-set-4">Problem set 5</a></li>
       </ol>
     </li>
     <li><a href="#prerequisites">Prerequisites</a></li>
@@ -58,6 +59,15 @@ Infinite-horizon dynamic programming problem based off of Rust (1987) value func
 
 ### [Problem Set 4](https://github.com/PaulTran47/ECO388E/tree/main/problemset4)
 Kernel density estimation and optimal bandwidth estimation using cross validation methods.
+
+<p align="right">
+  (<a href="#ut-austin-structural-and-nonparametrics-econometrics">back to top.</a>)
+</p>
+
+---
+
+### [Problem Set 5](https://github.com/PaulTran47/ECO388E/tree/main/problemset5)
+Kernel conditional expectation estimation, k-nearest-neighbour-search conditional expectation estimation, and optimal bandwidth estimation using cross validation methods.
 
 <p align="right">
   (<a href="#ut-austin-structural-and-nonparametrics-econometrics">back to top.</a>)
