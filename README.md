@@ -22,7 +22,7 @@
 ---
 
 ## Overview
-This repository houses all problem sets and associated solutions for ECO388E: Structural Econometrics at UT Austin, in fall 2021 (problem sets 1 - 3) and ECO388E: Advanced Econometric Theory I in spring 2022 (problem sets 4 - ). The solutions are written in Matlab by Paul Le Tran.
+This repository houses all problem sets and associated solutions for ECO388E: Structural Econometrics at UT Austin, in fall 2021 (problem sets 1 - 3) and ECO388E: Advanced Econometric Theory I in spring 2022 (problem sets 4 - 6). The solutions are written in Matlab by Paul Le Tran.
 
 <p align="right">
   (<a href="#ut-austin-structural-and-nonparametrics-econometrics">back to top.</a>)
