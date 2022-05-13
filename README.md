@@ -12,7 +12,8 @@
         <li><a href="#problem-set-2">Problem set 2</a></li>
         <li><a href="#problem-set-3">Problem set 3</a></li>
         <li><a href="#problem-set-4">Problem set 4</a></li>
-        <li><a href="#problem-set-4">Problem set 5</a></li>
+        <li><a href="#problem-set-5">Problem set 5</a></li>
+        <li><a href="#problem-set-6">Problem set 6</a></li>
       </ol>
     </li>
     <li><a href="#prerequisites">Prerequisites</a></li>
@@ -68,6 +69,15 @@ Kernel density estimation and optimal bandwidth estimation using cross validatio
 
 ### [Problem Set 5](https://github.com/PaulTran47/ECO388E/tree/main/problemset5)
 Kernel conditional expectation estimation, k-nearest-neighbour-search conditional expectation estimation, and optimal bandwidth estimation using cross validation methods.
+
+<p align="right">
+  (<a href="#ut-austin-structural-and-nonparametrics-econometrics">back to top.</a>)
+</p>
+
+---
+
+### [Problem Set 6](https://github.com/PaulTran47/ECO388E/tree/main/problemset6)
+Creating machine learning models for providing localisation solutions of classification and regression problems.
 
 <p align="right">
   (<a href="#ut-austin-structural-and-nonparametrics-econometrics">back to top.</a>)
